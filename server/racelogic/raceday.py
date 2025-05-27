@@ -43,16 +43,22 @@ CLASS_ORDER_DEFAULT = [
     ("2WD", "C"),
     ("2WD", "B"),
     ("2WD", "A"),
+    ("SC", "C"),
+    ("SC", "B"),
+    ("SC", "A"),
     ("4WD", "C"),
     ("4WD", "B"),
     ("4WD", "A")
 ]
 CLASS_ORDER_FINALS = [
     ("2WD", "C"),
+    ("SC", "C"),
     ("4WD", "C"),
     ("2WD", "B"),
+    ("SC", "B"),
     ("4WD", "B"),
     ("2WD", "A"),
+    ("SC", "A"),
     ("4WD", "A")
 ]
 CLASS_ORDER = {
@@ -266,7 +272,7 @@ class Raceday:
         return heat_name in self.results
 
     def add_empty_heat(self, heat_name: str) -> None:
-        self.results[heat_name] = {"2WD": {}, "4WD": {}}
+        self.results[heat_name] = {"2WD": {}, "SC": {}, "4WD": {}}
 
     def result_exists(self, heat_name: str, rcclass: str, group: str) -> bool:
         if not self.has_heat(heat_name):
@@ -319,6 +325,7 @@ class Raceday:
         current_heat = self.get_current_heat()
         return {
             "2WD": self.start_lists[current_heat]["2WD"].get_groups(),
+            "SC": self.start_lists[current_heat]["SC"].get_groups(),
             "4WD": self.start_lists[current_heat]["4WD"].get_groups(),
         }
 
@@ -389,7 +396,7 @@ class Raceday:
         """
         results = {(heat_name, rcclass, group): self.get_result(heat_name, rcclass, group)
                    for heat_name in self.results
-                   for rcclass in ("2WD", "4WD")
+                   for rcclass in ("2WD", "SC", "4WD")
                    for group in self.get_groups_in_race(heat_name, rcclass)}
         return results
 
@@ -424,7 +431,7 @@ class Raceday:
         return None, None, None
 
     def _update_start_lists_for_finals(self):
-        for rcclass in ("2WD", "4WD"):
+        for rcclass in ("2WD", "SC", "4WD"):
             class_results = self.results[FINALS_NAME][rcclass]
             groups = ("C", "B", "A")
             for i in range(len(groups) - 1):

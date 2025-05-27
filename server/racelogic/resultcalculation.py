@@ -164,9 +164,9 @@ def _get_all_participants(participants):
 
 
 def add_participants() -> Dict[str, Dict[str, List[int]]]:
-    participants = {"2WD": defaultdict(list), "4WD": defaultdict(list)}
+    participants = {"2WD": defaultdict(list), "SC": defaultdict(list), "4WD": defaultdict(list)}
 
-    classes = ["2WD", "4WD"]
+    classes = ["2WD", "SC", "4WD"]
     groups = ["A", "B", "C"]
     for rcclass in classes:
         for group in groups:
@@ -226,7 +226,7 @@ def _calculate_points_from_finals(results: Dict[str, Dict[str, rd.RaceResult]],
 
 
 def _calculate_cup_points(raceday: rd.Raceday) -> Tuple[Dict[rd.Driver, int], Dict[str, Dict[rd.Driver, List[int]]]]:
-    points_per_race = {"2WD": defaultdict(list), "4WD": defaultdict(list)}
+    points_per_race = {"2WD": defaultdict(list), "SC": defaultdict(list), "4WD": defaultdict(list)}
     for heat_name in rd.RACE_ORDER:
         if raceday.are_all_races_in_round_completed(heat_name):
             if heat_name not in (rd.QUALIFIERS_NAME, rd.FINALS_NAME) and raceday.heat_has_result(heat_name):
@@ -262,7 +262,7 @@ def _enter_new_groups() -> Dict[str, List[str]]:
         "C": ["A", "B", "C"]  # deal with it, I'm tired
     }
 
-    groups = {"2WD": [], "4WD": []}
+    groups = {"2WD": [], "SC": [], "4WD": []}
     for rcclass in groups:
         entered = ""
         while entered not in ("A", "B", "C"):
@@ -304,7 +304,7 @@ def _create_start_list_from_qualifiers(groups: Dict[str, List[str]], raceday: rd
     where each group is mapped to a list of drivers (the start list),
     as well as a set of the duplicate drivers.
     """
-    start_lists = {"2WD": {}, "4WD": {}}
+    start_lists = {"2WD": {}, "SC": {}, "4WD": {}}
 
     def _group_sort_fn(item: Tuple[str, rd.RaceResult]) -> Tuple[int, int]:
         _, results = item
@@ -348,7 +348,7 @@ def _create_start_list_from_qualifiers(groups: Dict[str, List[str]], raceday: rd
 
 def _create_start_list_intermediate_races(raceday: rd.Raceday, heat_name: str) \
         -> Tuple[Dict[str, Dict[str, List[rd.Driver]]], Set[rd.Driver]]:
-    start_lists = {"2WD": {}, "4WD": {}}
+    start_lists = {"2WD": {}, "SC": {}, "4WD": {}}
     results = raceday.get_heat_results(heat_name)
 
     for rcclass in start_lists:
@@ -413,7 +413,7 @@ def _sort_by_points_and_best_heats(points):
 
 def _create_start_lists_for_finals(raceday: rd.Raceday) \
         -> Tuple[Dict[str, Dict[str, List[rd.Driver]]], Set[rd.Driver]]:
-    start_lists = {"2WD": defaultdict(list), "4WD": defaultdict(list)}
+    start_lists = {"2WD": defaultdict(list), "SC": defaultdict(list), "4WD": defaultdict(list)}
     points, points_per_race = _calculate_cup_points(raceday)
 
     for rcclass in start_lists:
@@ -451,10 +451,10 @@ def start_new_race_round():
     groups = raceday.get_current_groups()
 
     if raceday.get_current_heat() == rd.QUALIFIERS_NAME:
-        print(f"Nuvarande grupper är 2WD {', '.join(groups['2WD'])} och 4WD {', '.join(groups['4WD'])}")
+        print(f"Nuvarande grupper är 2WD {', '.join(groups['2WD'])}, SC {', '.join(groups['SC'])} och 4WD {', '.join(groups['4WD'])}")
         while not _confirm_yes_no("Vill du fortfarande använda dessa grupper?"):
             groups = _enter_new_groups()
-            print(f"Nya grupper är 2WD {', '.join(groups['2WD'])} och 4WD {', '.join(groups['4WD'])}")
+            print(f"Nya grupper är 2WD {', '.join(groups['2WD'])}, SC {', '.join(groups['SC'])} och 4WD {', '.join(groups['4WD'])}")
 
     new_start_lists, duplicate_drivers = _create_new_start_lists(groups, raceday)
 
@@ -560,7 +560,7 @@ def add_new_result_manually():
     race = raceday.get_current_heat()
 
     race_options = [(rcclass, group)
-                    for rcclass in ("2WD", "4WD") for group in raceday.get_groups_in_race(race, rcclass)]
+                    for rcclass in ("2WD", "SC", "4WD") for group in raceday.get_groups_in_race(race, rcclass)]
     rcclass, group = _select_from_list(
         race_options, "Välj vilket race att mata in manuellt.", lambda e: " ".join(e))
 
@@ -630,7 +630,7 @@ def show_latest_result(select=False):
     else:
         race_options = [(race, rcclass, group)
                         for race in raceday.get_heats_with_results()
-                        for rcclass in ("2WD", "4WD")
+                        for rcclass in ("2WD", "SC", "4WD")
                         for group in raceday.get_class_results(race, rcclass)]
         race, rcclass, group = _select_from_list(
             race_options, "Välj vilket race att visa resultat för.", lambda e: " ".join(e))
@@ -727,7 +727,7 @@ def _delete_if_exists(key: Any, dictionary: Dict):
 
 def _remove_drivers_with_no_participation(season_points_per_class: Dict[str, SeasonPoints]):
     drivers_to_remove = []
-    for rcclass in ("2WD", "4WD"):
+    for rcclass in ("2WD", "SC", "4WD"):
         season_points = season_points_per_class[rcclass]
         for driver in season_points.race_participation:
             if not any(season_points.race_participation[driver]):
@@ -747,14 +747,15 @@ def calculate_season_points(racedays: List[rd.Raceday], race_locations: List[str
     Calculates the cup points over a season, and returns a dictionary where
     each rcclass is mapped to the points those drivers got.
     """
-    season_points_per_class = {"2WD": SeasonPoints(), "4WD": SeasonPoints()}
+    season_points_per_class = {"2WD": SeasonPoints(), "SC": SeasonPoints(), "4WD": SeasonPoints()}
     season_points_per_class["2WD"].race_locations = race_locations
+    season_points_per_class["SC"].race_locations = race_locations
     season_points_per_class["4WD"].race_locations = race_locations
     all_drivers = _get_all_participants_over_a_season(racedays)
     points_for_all_races = [_calculate_cup_points(raceday) for raceday in racedays]
     for driver in all_drivers:
         for race_points, points_per_heat in points_for_all_races:
-            rcclass = "2WD" if driver in points_per_heat["2WD"] else "4WD"
+            rcclass = "2WD" if driver in points_per_heat["2WD"] else ("SC" if driver in points_per_heat["SC"] else "4WD")
             driver_points = race_points.get(driver, None)
             drove_in_neither_class = driver_points is None
 
@@ -768,7 +769,7 @@ def calculate_season_points(racedays: List[rd.Raceday], race_locations: List[str
             season_points_per_class[not_rcclass].points_per_race[driver].append(0)
             season_points_per_class[not_rcclass].race_participation[driver].append(False)
 
-        for rcclass in ("2WD", "4WD"):
+        for rcclass in ("2WD", "SC", "4WD"):
             drop_race_index = np.argmin(season_points_per_class[rcclass].points_per_race[driver])
             drop_race_points = season_points_per_class[rcclass].points_per_race[driver][drop_race_index]
             season_points_per_class[rcclass].drop_race_indices[driver] = int(drop_race_index)

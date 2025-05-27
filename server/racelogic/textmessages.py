@@ -12,7 +12,7 @@ except ImportError:
     import util
 
 
-CLASSES = {2: "2WD", 4: "4WD"}
+CLASSES = {2: "2WD", 3: "SC", 4: "4WD"}
 RACES = {
     16: "Kval",
     8: "Åttondelsfinal",
