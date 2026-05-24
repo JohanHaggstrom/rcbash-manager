@@ -1,49 +1,94 @@
 #!/usr/bin/env python3
 
 NAMES = {
-    10: "Lars",
-    11: "connysvensson",  # Conny Svensson
-    14: "sundevall",  # Johan Sundevall
-    19: "Bosse",  # Bo Wigren
-    21: "Emanuel21",  # Emanuel Ergul
-    22: "Smurfen",  # Pjerre Gustavsson
-    23: "Svinto79",  # Dennis Fridlund
-    24: "fridde81",  # Andreas Fridlund
-    26: "cuun123",  # Tommy Öhngren
-    27: "Streith",  # Mattias Streith
-    29: "Codfish",  # Elliot Runsteen
-    31: "Milan",  # Milan Lazovic
-    35: "TheNewGuy",  # Patrik Runsteen
-    36: "Nyqvist",  # Jarek Wroblewski
-    37: "Fredrikf",  # Fredrik Flodkvist
-    38: "Huseby",  # Geir Huseby
-    39: "Janimakaj",  # Olle Olsson
-    41: "Gammelgäddan",  # Peter Wigren
-    42: "7jnoprob",  # Rikard Nilsson
-    45: "perka",  # Per Karlsson
-    46: "Brypa",  # Patrik Bryske
-    48: "Nilssen",  # Bjørn Erik Nilssen
-    51: "truckpeter",  # Peter Andersson
-    53: "Mr_Rustler",  # Mattias Andersson
-    54: "Hakan_Ehn",  # Håkan Ehn
-    56: "Arne S",  # Arne Skaug
-    58: "Stargatefour",  # Nicklas Andersson
-    60: "T-Eddie",  # Eddie leksell
-    62: "Blomberg",  # Alexander Blomberg
-    63: "DanielV",  # Daniel Vuorenmaa
-    64: "J_wohlfart",  # Jimmy Wohlfart
-    65: "Wohlfie",  # Anders Wohlfart
-    67: "Calle",  # Carl Johan Sandström
-    71: "Hawk71",  # Håkan Kågström
-    75: "Kingstreet Rc",  # Robin Wennermark
-    76: "Wahla",  # Niklas Wahlström
-    77: "Morgan77",  # Morgan Esping Gustavsson
-    78: "lars10",  # Lars owinski
-    82: "Micke8233",  # Mikael Eriksson
-    83: "Mastiff83",  # Joel Eriksson
-    85: "Rb40",  # Robert Brodén
-    88: "Fredricsson",  # Robin Fredriksson
-    89: "Big D",  # David Lindquist
-    90: "malcx95",  # malcolm Wigren
-    94: "Rex",  # Anders Andersson
+    10: "Mattias Gunnarsson",
+    11: "Conny Svensson",
+    12: "Rasmus Levin",
+    13: "Lasse Tholander",
+    14: "14",
+    15: "Morgan Mjöby",
+    16: "Micael Andersson",
+    17: "Fredrik Leindahl",
+    18: "18",
+    19: "Bo Wigren",
+    20: "20",
+    21: "Emanuel Ergul",
+    22: "Pjerre Gustavsson",
+    23: "23",
+    24: "Andreas Fridlund",
+    25: "25",
+    26: "Tommy Öhngren",
+    27: "Mattias Streith",
+    28: "28",
+    29: "29",
+    30: "30",
+    31: "31",
+    32: "32",
+    33: "33",
+    34: "34",
+    35: "35",
+    36: "36",
+    37: "Fredrik Flodkvist",
+    38: "Geir Huseby",
+    39: "Ollle Olsson",
+    40: "Daniel Levänen",
+    41: "Peter Wigren",
+    42: "Rickard Nilsson",
+    43: "43",
+    44: "44",
+    45: "Per Karlsson",
+    46: "Patrik Bryske",
+    47: "47",
+    48: "48",
+    49: "49",
+    50: "50",
+    51: "Peter Andersson",
+    52: "Lee Hendy",
+    53: "53",
+    54: "54",
+    55: "Micce Lundh",
+    56: "56",
+    57: "Arne Johansson",
+    58: "Nicklas Andersson",
+    59: "59",
+    60: "Eddie leksell",
+    61: "61",
+    62: "Alexander Blomberg",
+    63: "63",
+    64: "Jimmy Wohlfart",
+    65: "Anders Wohlfart",
+    66: "66",
+    67: "Calle Sandström",
+    68: "68",
+    69: "Gustav Karlsson",
+    70: "70",
+    71: "Håkan Kågström",
+    72: "72",
+    73: "Mikael Carlsson",
+    74: "Lars Bedoire",
+    75: "Robin Wennermark",
+    76: "76",
+    77: "Morgan E Gustavsson",
+    78: "78",
+    79: "Harry G Palin",
+    80: "Andreas Darsell",
+    81: "Håkan Persson",
+    82: "82",
+    83: "83",
+    84: "84",
+    85: "85",
+    86: "86",
+    87: "87",
+    88: "Robin Fredricsson",
+    89: "David Lindquist",
+    90: "90",
+    91: "91",
+    92: "92",
+    93: "Leif Moen",
+    94: "Klaus Karlsson",
+    95: "95",
+    96: "96",
+    97: "97",
+    98: "98",
+    99: "Martin Danielsson",
 }
