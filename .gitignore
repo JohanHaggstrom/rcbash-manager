@@ -1,4 +1,11 @@
+# Python
 __pycache__/
+*.py[cod]
+
+# Other
 uwsgi.ini
 environment.sh
 rcbashmanager.db
+
+# Claude Code
+.claude/settings.local.json
