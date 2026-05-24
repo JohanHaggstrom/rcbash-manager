@@ -4,11 +4,11 @@ import json
 import sys
 
 SETTINGS = {
-    "drive": "D:"
+    "drive": "E:"
 }
 
-if os.path.isfile("settings.json"):
-    with open("settings.json") as f:
+if os.path.isfile("../racelogic/settings.json"):
+    with open("../racelogic/settings.json") as f:
         SETTINGS = json.load(f)
 
 DRIVE_MOUNT_LOCATION = SETTINGS["drive"]
