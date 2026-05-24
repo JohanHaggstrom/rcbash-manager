@@ -583,13 +583,11 @@ def add_new_result_manually():
 
     num_laps_driven = {}
     total_times = {}
-    if race == rd.QUALIFIERS_NAME:
-        for number in positions:
-            num_laps = _enter_num_laps(number)
-            total_time = _enter_total_time(number)
-
-            num_laps_driven[number] = num_laps
-            total_times[number] = total_time
+    if race == rd.QUALIFIERS_NAME and positions:
+        first = positions[0]
+        print(f"Ange endast 1:ans ({first}) varv och tid — används för att seeda åttondelsfinalen.")
+        num_laps_driven[first] = _enter_num_laps(first)
+        total_times[first] = _enter_total_time(first)
 
     race_participants = rd.number_list_to_driver_list(positions)
     race, rcclass, group, start_list = raceday.find_relevant_race(race_participants)
@@ -603,10 +601,17 @@ def add_new_result_manually():
                 drivers_to_exclude.append(driver)
 
     for driver in drivers_to_exclude:
-        if total_times:
+        if driver.number in total_times:
             del total_times[driver.number]
+        if driver.number in num_laps_driven:
             del num_laps_driven[driver.number]
         positions.remove(driver.number)
+
+    if race == rd.QUALIFIERS_NAME and positions and positions[0] not in total_times:
+        new_first = positions[0]
+        print(f"1:an ändrades efter exkludering. Ange varv och tid för nya 1:an ({new_first}).")
+        num_laps_driven[new_first] = _enter_num_laps(new_first)
+        total_times[new_first] = _enter_total_time(new_first)
 
     raceday.add_result(race, rcclass, group,
                        positions, num_laps_driven, total_times,
